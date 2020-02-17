@@ -1,8 +1,7 @@
-// keys.js - figure out what set of credential to return
-if (process.env.NODE_ENV === "production") {
-  // we are in production - return the prod set of keys
-  module.exports = require("./prod");
-} else {
-  // we are in development - return the dev keys
-  module.exports = require("./dev");
-}
+module.exports = {
+  mysqlUser: process.env.MYSQL_USER,
+  mysqlHost: process.env.MYSQL_HOST,
+  mysqlDatabase: process.env.MYSQL_DATABASE,
+  mysqlPassword: process.env.MYSQL_PASSWORD,
+  mysqlPort: process.env.MYSQL_PORT
+};
