@@ -35,7 +35,7 @@ jobs:
     docker:
       # specify the version you desire here
       - image: circleci/node:10.15.3
-      - image: mysql:5.7
+      - image: circleci/mysql:5.7
         environment:
           MYSQL_USER: root
           MYSQL_HOST: mysql
@@ -53,8 +53,8 @@ workflows:
     jobs:
       - build
       - test:
-      requires:
-        - build
-      filters:
-        branches:
-          only: master
+        requires:
+          - build
+        filters:
+          branches:
+            only: master
