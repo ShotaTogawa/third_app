@@ -9,7 +9,7 @@ jobs:
     docker:
       # specify the version you desire here
       - image: circleci/node:10.15.3
-      - image: circleci/mysql:5.7
+      - image: circleci/mysql:latest
         environment:
           MYSQL_USER: root
           MYSQL_HOST: mysql
@@ -35,7 +35,7 @@ jobs:
     docker:
       # specify the version you desire here
       - image: circleci/node:10.15.3
-      - image: circleci/mysql:5.7
+      - image: circleci/mysql:latest
         environment:
           MYSQL_USER: root
           MYSQL_HOST: mysql
