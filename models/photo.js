@@ -4,7 +4,18 @@ module.exports = (sequelize, DataTypes) => {
     "Photo",
     {
       user_id: DataTypes.INTEGER,
-      photo_url: DataTypes.STRING
+      photo_url: {
+        type: DataTypes.STRING,
+        validate: {
+          notEmpty: true
+        }
+      },
+      description: {
+        type: DataTypes.STRING,
+        validate: {
+          max: 255
+        }
+      }
     },
     {}
   );

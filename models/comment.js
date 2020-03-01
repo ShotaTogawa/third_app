@@ -5,7 +5,12 @@ module.exports = (sequelize, DataTypes) => {
     {
       user_id: DataTypes.INTEGER,
       photo_id: DataTypes.STRING,
-      comment: DataTypes.STRING
+      comment: {
+        type: DataTypes.STRING,
+        validate: {
+          max: 255
+        }
+      }
     },
     {}
   );
