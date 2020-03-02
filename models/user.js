@@ -1,14 +1,14 @@
-"use strict";
+'use strict'
 module.exports = (sequelize, DataTypes) => {
   const User = sequelize.define(
-    "User",
+    'User',
     {
       name: {
         type: DataTypes.STRING,
         validate: {
           notEmpty: {
             args: true,
-            mas: "Name is required"
+            mas: 'Name is required'
           }
         },
         email: {
@@ -17,7 +17,7 @@ module.exports = (sequelize, DataTypes) => {
           validate: {
             notEmpty: {
               args: true,
-              mas: "Email is required"
+              mas: 'Email is required'
             },
             isEmail: true
           }
@@ -27,7 +27,7 @@ module.exports = (sequelize, DataTypes) => {
           validate: {
             notEmpty: {
               args: true,
-              mas: "Password is required"
+              mas: 'Password is required'
             },
             min: 6
           }
@@ -43,41 +43,41 @@ module.exports = (sequelize, DataTypes) => {
           validate: {
             max: {
               args: 255,
-              mas: "Max length is 255"
+              mas: 'Max length is 255'
             }
           }
         }
       }
     },
     {}
-  );
-  User.associate = function(models) {
+  )
+  User.associate = function (models) {
     // associations can be defined here
     User.hasMany(models.Photo, {
-      foreignKey: "user_id"
+      foreignKey: 'user_id'
       // as: 'photos'
-    });
+    })
 
     User.belongsToMany(models.Photo, {
-      through: "Likes",
-      as: "photos",
-      foreignKey: "user_id",
+      through: 'Likes',
+      as: 'photos',
+      foreignKey: 'user_id',
       timestamps: true
-    });
+    })
 
     User.belongsToMany(models.User, {
-      through: "Follow",
-      foreignKey: "followee_id",
-      as: "follower",
+      through: 'Follow',
+      foreignKey: 'followee_id',
+      as: 'follower',
       timestamps: true
-    });
+    })
 
     User.belongsToMany(models.User, {
-      through: "Follow",
-      foreignKey: "follower_id",
-      as: "followee",
+      through: 'Follow',
+      foreignKey: 'follower_id',
+      as: 'followee',
       timestamps: true
-    });
-  };
-  return User;
-};
+    })
+  }
+  return User
+}
