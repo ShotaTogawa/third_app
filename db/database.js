@@ -1,8 +1,8 @@
-const Sequelize = require("sequelize");
+const Sequelize = require('sequelize')
 
-module.exports = new Sequelize("myapp", "root", "", {
-  host: "mysql",
-  dialect: "mysql",
+module.exports = new Sequelize('myapp', 'root', '', {
+  host: 'mysql',
+  dialect: 'mysql',
 
   pool: {
     max: 5,
@@ -10,4 +10,4 @@ module.exports = new Sequelize("myapp", "root", "", {
     acquire: 30000,
     idle: 10000
   }
-});
+})
