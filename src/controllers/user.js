@@ -2,7 +2,6 @@ const models = require('../../models')
 const User = models.User
 
 exports.updateProfile = async (req, res) => {
-  console.log(req.user.id)
   const { name, email, introduction, imageUrl } = req.body
 
   try {

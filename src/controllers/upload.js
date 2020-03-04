@@ -10,7 +10,6 @@ const s3 = new AWS.S3({
 
 exports.getPresignedURL = async (req, res) => {
   const key = `${req.user.id}/${uuid()}.jpeg`
-  console.log(key)
 
   const url = await s3.getSignedUrl('putObject', {
     Bucket: 'insta-clone-pj/avatar',
