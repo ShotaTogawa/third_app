@@ -1,5 +1,6 @@
 const models = require("../../models");
 const Photo = models.Photo;
+const { Op } = require("sequelize");
 
 exports.getPhoto = async (req, res) => {
   try {
@@ -35,7 +36,24 @@ exports.getMyPhotos = async (req, res) => {
   }
 };
 
-exports.getSearchMyPhotos = async (req, res) => {};
+exports.getSearchMyPhotos = async (req, res) => {
+  try {
+    const photos = await Photo.findAll({
+      attributes: ["id", "user_id", "photo_url", "description", "createdAt"],
+      where: {
+        description: {
+          [Op.like]: `%${req.query.term}%`
+        }
+      }
+    });
+    if (!photos) {
+      res.send("Not found");
+    }
+    res.send(photos);
+  } catch (e) {
+    res.send(e);
+  }
+};
 
 exports.getPhotos = async (req, res) => {};
 
