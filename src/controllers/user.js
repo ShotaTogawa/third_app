@@ -21,7 +21,7 @@ exports.getUsers = async (req, res) => {
   try {
     const users = await User.findAll({
       attributes: ['name', 'image', 'introduction', 'createdAt'],
-      limit: req.query.limit,
+      limit: parseInt(req.query.limit),
       offset: req.query.offset
     })
     res.send(users)

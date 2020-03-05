@@ -17,7 +17,23 @@ exports.getPhoto = async (req, res) => {
   }
 };
 
-exports.getMyPhotos = async (req, res) => {};
+exports.getMyPhotos = async (req, res) => {
+  try {
+    const photos = await Photo.findAll({
+      where: {
+        user_id: req.user.id
+      },
+      limit: parseInt(req.query.limit),
+      offset: parseInt(req.query.offset)
+    });
+    if (!photos) {
+      res.send("This user does not have photos");
+    }
+    res.send(photos);
+  } catch (e) {
+    res.send(e);
+  }
+};
 
 exports.getSearchMyPhotos = async (req, res) => {};
 
