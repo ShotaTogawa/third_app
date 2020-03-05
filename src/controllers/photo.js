@@ -71,7 +71,24 @@ exports.getPhotos = async (req, res) => {
   }
 };
 
-exports.getSearchPhotos = async (req, res) => {};
+exports.getSearchPhotos = async (req, res) => {
+  try {
+    const photos = await Photo.findAll({
+      attributes: ["id", "user_id", "photo_url", "description", "createdAt"],
+      where: {
+        description: {
+          [Op.like]: `%${req.query.term}%`
+        }
+      }
+    });
+    if (!photos) {
+      res.send("Not found");
+    }
+    res.send(photos);
+  } catch (e) {
+    res.send(e);
+  }
+};
 
 exports.postPhoto = async (req, res) => {};
 
