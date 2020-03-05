@@ -20,3 +20,5 @@ router.get("/photos/search", authenticateToken, getSearchPhotos);
 router.post("/photo", authenticateToken, postPhoto);
 router.patch("/photo/:photoId", authenticateToken, patchPhoto);
 router.delete("/photo/:photoId", authenticateToken, deletePhoto);
+
+module.exports = router;
