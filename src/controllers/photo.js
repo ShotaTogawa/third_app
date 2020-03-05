@@ -124,4 +124,13 @@ exports.putPhoto = async (req, res) => {
   }
 };
 
-exports.deletePhoto = async (req, res) => {};
+exports.deletePhoto = async (req, res) => {
+  try {
+    await Photo.destroy({
+      where: { id: parseInt(req.params.photoId) }
+    });
+    res.sendStatus(200);
+  } catch (e) {
+    res.send("Failed to delete");
+  }
+};
