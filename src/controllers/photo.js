@@ -41,6 +41,7 @@ exports.getSearchMyPhotos = async (req, res) => {
     const photos = await Photo.findAll({
       attributes: ["id", "user_id", "photo_url", "description", "createdAt"],
       where: {
+        user_id: req.user.id,
         description: {
           [Op.like]: `%${req.query.term}%`
         }
@@ -55,7 +56,20 @@ exports.getSearchMyPhotos = async (req, res) => {
   }
 };
 
-exports.getPhotos = async (req, res) => {};
+exports.getPhotos = async (req, res) => {
+  try {
+    const photos = await Photo.findAll({
+      limit: parseInt(req.query.limit),
+      offset: parseInt(req.query.offset)
+    });
+    if (!photos) {
+      res.send("This user does not have photos");
+    }
+    res.send(photos);
+  } catch (e) {
+    res.send(e);
+  }
+};
 
 exports.getSearchPhotos = async (req, res) => {};
 
