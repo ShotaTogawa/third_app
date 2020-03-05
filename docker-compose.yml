@@ -1,0 +1,20 @@
+version: "3"
+services:
+  mysql:
+    image: "mysql:latest"
+    restart: always
+    environment:
+      - MYSQL_USER=root
+      - MYSQL_HOST=mysql
+      - MYSQL_DATABASE=myapp
+      - MYSQL_ALLOW_EMPTY_PASSWORD=1
+      - MYSQL_PORT=3306
+  api:
+    depends_on:
+      - mysql
+    build:
+      dockerfile: Dockerfile.dev
+      context: ./
+    volumes:
+      - /app/node_modules
+      - ./:/app
