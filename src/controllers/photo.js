@@ -90,7 +90,22 @@ exports.getSearchPhotos = async (req, res) => {
   }
 };
 
-exports.postPhoto = async (req, res) => {};
+exports.postPhoto = async (req, res) => {
+  const { photo_url, description } = req.body;
+  try {
+    const photo = await Photo.create({
+      user_id: req.user.id,
+      photo_url,
+      description
+    });
+    if (!photo) {
+      res.send("Something wrong");
+    }
+    res.send(photo);
+  } catch (e) {
+    res.send(e);
+  }
+};
 
 exports.patchPhoto = async (req, res) => {};
 
