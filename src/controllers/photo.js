@@ -90,7 +90,7 @@ exports.searchPhotos = async (req, res) => {
   }
 };
 
-exports.addPhoto = async (req, res) => {
+exports.createPhoto = async (req, res) => {
   const { photoUrl, description } = req.body;
   try {
     const photo = await Photo.create({
@@ -99,7 +99,7 @@ exports.addPhoto = async (req, res) => {
       description
     });
     if (!photo) {
-      return res.send("Something wrong");
+      return res.send("Failed to create a photo");
     }
     res.send(photo);
   } catch (e) {
@@ -111,12 +111,13 @@ exports.updatePhoto = async (req, res) => {
   try {
     const photo = await Photo.findByPk(req.params.photoId);
 
-    if (photo) {
-      await photo.update({
-        description: req.body.description || photo.description
-      });
-      return res.send(photo);
+    if (!photo) {
+      return res.send("Not Found");
     }
+    await photo.update({
+      description: req.body.description || photo.description
+    });
+    return res.send(photo);
   } catch (err) {
     return res.status(500).send(err);
   }

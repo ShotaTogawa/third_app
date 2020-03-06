@@ -12,12 +12,6 @@
   "jest": {
     "testEnvironment": "node"
   },
-  "husky": {
-    "hooks": {
-      "pre-commit": "npm run lint:fix",
-      "pre-push": "npm run lint:fix"
-    }
-  },
   "keywords": [],
   "author": "",
   "license": "ISC",
