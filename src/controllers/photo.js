@@ -93,6 +93,9 @@ exports.searchPhotos = async (req, res) => {
 exports.createPhoto = async (req, res) => {
   const { photoUrl, description } = req.body
   try {
+    if (!photoUrl) {
+      return res.send('Photo has to be sent')
+    }
     const photo = await Photo.create({
       user_id: req.user.id,
       photo_url: photoUrl,
