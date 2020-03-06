@@ -1,21 +1,21 @@
-const models = require("../../models");
-const User = models.User;
-const { Op } = require("sequelize");
+const models = require('../../models')
+const User = models.User
+const { Op } = require('sequelize')
 
 exports.currentUser = async (req, res) => {
   try {
     const currentUser = await User.findOne({
       attributes: ['name', 'email', 'image', 'introduction', 'createdAt'],
       where: { id: req.user.id }
-    });
+    })
     if (!currentUser) {
       return res.send('User not found')
     }
-    return res.status(200).send(currentUser);
+    return res.status(200).send(currentUser)
   } catch (e) {
     res.status(500).send(e)
   }
-};
+}
 
 exports.users = async (req, res) => {
   try {
@@ -31,12 +31,12 @@ exports.users = async (req, res) => {
   } catch (e) {
     res.status(500).send(e)
   }
-};
+}
 
 exports.searchUsers = async (req, res) => {
   try {
     const users = await User.findAll({
-      attributes: ["id", "name", "image", "introduction", "createdAt"],
+      attributes: ['id', 'name', 'image', 'introduction', 'createdAt'],
       where: {
         [Op.or]: [
           {
@@ -59,10 +59,10 @@ exports.searchUsers = async (req, res) => {
   } catch (e) {
     res.status(500).send(e)
   }
-};
+}
 
 exports.updateProfile = async (req, res) => {
-  const { name, email, introduction, imageUrl } = req.body;
+  const { name, email, introduction, imageUrl } = req.body
 
   try {
     const profile = await User.findByPk(req.user.id)
@@ -79,7 +79,7 @@ exports.updateProfile = async (req, res) => {
   } catch (err) {
     res.status(500).send(err)
   }
-};
+}
 
 exports.deleteUser = async (req, res) => {
   try {
