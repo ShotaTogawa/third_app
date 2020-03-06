@@ -9,7 +9,7 @@ exports.currentUser = async (req, res) => {
       where: { id: req.user.id }
     })
     if (!currentUser) {
-      res.send('User not found')
+      return res.send('User not found')
     }
     return res.status(200).send(currentUser)
   } catch (e) {
