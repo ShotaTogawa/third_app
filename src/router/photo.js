@@ -2,23 +2,23 @@ const express = require("express");
 const router = express.Router();
 const { authenticateToken } = require("../controllers/auth");
 const {
-  getPhoto,
-  getMyPhotos,
-  getSearchMyPhotos,
-  getPhotos,
-  getSearchPhotos,
-  postPhoto,
-  putPhoto,
+  photo,
+  myPhotos,
+  searchMyPhotos,
+  photos,
+  searchPhotos,
+  addPhoto,
+  updatePhoto,
   deletePhoto
 } = require("../controllers/photo");
 
-router.get("/photo/:photoId", authenticateToken, getPhoto);
-router.get("/my-photos", authenticateToken, getMyPhotos);
-router.get("/my-photos/search", authenticateToken, getSearchMyPhotos);
-router.get("/photos", authenticateToken, getPhotos);
-router.get("/photos/search", authenticateToken, getSearchPhotos);
-router.post("/photo", authenticateToken, postPhoto);
-router.put("/photo/:photoId", authenticateToken, putPhoto);
+router.get("/photo/:photoId", authenticateToken, photo);
+router.get("/my-photos", authenticateToken, myPhotos);
+router.get("/my-photos/search", authenticateToken, searchMyPhotos);
+router.get("/photos", authenticateToken, photos);
+router.get("/photos/search", authenticateToken, searchPhotos);
+router.post("/photo", authenticateToken, addPhoto);
+router.put("/photo/:photoId", authenticateToken, updatePhoto);
 router.delete("/photo/:photoId", authenticateToken, deletePhoto);
 
 module.exports = router;

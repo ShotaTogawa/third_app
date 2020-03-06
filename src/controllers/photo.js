@@ -2,23 +2,23 @@ const models = require("../../models");
 const Photo = models.Photo;
 const { Op } = require("sequelize");
 
-exports.getPhoto = async (req, res) => {
+exports.photo = async (req, res) => {
   try {
-    const photo = await Photo.findAll({
+    const photo = await Photo.findOne({
       where: {
-        id: req.params.photoId
+        id: parseInt(req.params.photoId)
       }
     });
     if (!photo) {
-      res.send("the photo is not found");
+      return res.send("the photo is not found");
     }
     res.send(photo);
   } catch (e) {
-    res.send(e);
+    res.status(500).send(e);
   }
 };
 
-exports.getMyPhotos = async (req, res) => {
+exports.myPhotos = async (req, res) => {
   try {
     const photos = await Photo.findAll({
       where: {
@@ -28,15 +28,15 @@ exports.getMyPhotos = async (req, res) => {
       offset: parseInt(req.query.offset)
     });
     if (!photos) {
-      res.send("This user does not have photos");
+      return res.send("This user does not have photos");
     }
     res.send(photos);
   } catch (e) {
-    res.send(e);
+    res.status(500).send(e);
   }
 };
 
-exports.getSearchMyPhotos = async (req, res) => {
+exports.searchMyPhotos = async (req, res) => {
   try {
     const photos = await Photo.findAll({
       attributes: ["id", "user_id", "photo_url", "description", "createdAt"],
@@ -48,30 +48,30 @@ exports.getSearchMyPhotos = async (req, res) => {
       }
     });
     if (!photos) {
-      res.send("Not found");
+      return res.send("Not found");
     }
     res.send(photos);
   } catch (e) {
-    res.send(e);
+    res.status(500).send(e);
   }
 };
 
-exports.getPhotos = async (req, res) => {
+exports.photos = async (req, res) => {
   try {
     const photos = await Photo.findAll({
       limit: parseInt(req.query.limit),
       offset: parseInt(req.query.offset)
     });
     if (!photos) {
-      res.send("This user does not have photos");
+      return res.send("This user does not have photos");
     }
     res.send(photos);
   } catch (e) {
-    res.send(e);
+    res.status(500).send(e);
   }
 };
 
-exports.getSearchPhotos = async (req, res) => {
+exports.searchPhotos = async (req, res) => {
   try {
     const photos = await Photo.findAll({
       attributes: ["id", "user_id", "photo_url", "description", "createdAt"],
@@ -82,15 +82,15 @@ exports.getSearchPhotos = async (req, res) => {
       }
     });
     if (!photos) {
-      res.send("Not found");
+      return res.send("Not found");
     }
     res.send(photos);
   } catch (e) {
-    res.send(e);
+    res.status(500).send(e);
   }
 };
 
-exports.postPhoto = async (req, res) => {
+exports.addPhoto = async (req, res) => {
   const { photoUrl, description } = req.body;
   try {
     const photo = await Photo.create({
@@ -99,38 +99,39 @@ exports.postPhoto = async (req, res) => {
       description
     });
     if (!photo) {
-      res.send("Something wrong");
+      return res.send("Something wrong");
     }
     res.send(photo);
   } catch (e) {
-    res.send(e);
+    res.status(500).send(e);
   }
 };
 
-exports.putPhoto = async (req, res) => {
+exports.updatePhoto = async (req, res) => {
   try {
     const photo = await Photo.findByPk(req.params.photoId);
 
     if (photo) {
-      await photo
-        .update({
-          description: req.body.description
-        })
-        .save();
+      await photo.update({
+        description: req.body.description || photo.description
+      });
+      return res.send(photo);
     }
-    res.send(photo);
   } catch (err) {
-    return res.send(err);
+    return res.status(500).send(err);
   }
 };
 
 exports.deletePhoto = async (req, res) => {
   try {
-    await Photo.destroy({
+    const photo = await Photo.destroy({
       where: { id: parseInt(req.params.photoId) }
     });
+    if (!photo) {
+      return res.send("Failed to delete");
+    }
     res.sendStatus(200);
   } catch (e) {
-    res.send("Failed to delete");
+    res.status(500).send(e);
   }
 };
