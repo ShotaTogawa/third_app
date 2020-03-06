@@ -89,7 +89,7 @@ exports.deleteUser = async (req, res) => {
       }
     })
     if (!user) {
-      res.send('Failed to delete a user')
+      return res.send('Failed to delete a user')
     }
     res.send(user)
   } catch (e) {
