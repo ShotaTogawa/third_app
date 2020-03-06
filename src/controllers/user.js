@@ -5,31 +5,31 @@ const { Op } = require("sequelize");
 exports.currentUser = async (req, res) => {
   try {
     const currentUser = await User.findOne({
-      attributes: ["name", "email", "image", "introduction", "createdAt"],
+      attributes: ['name', 'email', 'image', 'introduction', 'createdAt'],
       where: { id: req.user.id }
     });
     if (!currentUser) {
-      return res.send("User not found");
+      return res.send('User not found')
     }
     return res.status(200).send(currentUser);
   } catch (e) {
-    res.status(500).send(e);
+    res.status(500).send(e)
   }
 };
 
-exports.fetchUsers = async (req, res) => {
+exports.users = async (req, res) => {
   try {
     const users = await User.findAll({
       attributes: ['name', 'image', 'introduction', 'createdAt'],
       limit: parseInt(req.query.limit),
-      offset: req.query.offset
-    });
-    if (!users) {
-      return res.send("User Not found");
+      offset: parseInt(req.query.offset)
+    })
+    if (users.length === 0) {
+      return res.send('Not found')
     }
-    res.status(200).send(users);
+    res.send(users)
   } catch (e) {
-    res.status(500).send(e);
+    res.status(500).send(e)
   }
 };
 
@@ -51,13 +51,13 @@ exports.searchUsers = async (req, res) => {
           }
         ]
       }
-    });
-    if (!users) {
-      return res.send("User Not found");
+    })
+    if (users.length === 0) {
+      return res.send('Not Found')
     }
-    res.status(200).send(users);
+    res.send(users)
   } catch (e) {
-    res.status(500).send(e);
+    res.status(500).send(e)
   }
 };
 
@@ -65,20 +65,19 @@ exports.updateProfile = async (req, res) => {
   const { name, email, introduction, imageUrl } = req.body;
 
   try {
-    const profile = await User.findByPk(req.user.id);
-    if (profile) {
-      await profile
-        .update({
-          name: name || profile.name,
-          email: email || profile.email,
-          introduction,
-          imageUrl
-        })
-        .save();
-      return res.send(profile);
+    const profile = await User.findByPk(req.user.id)
+    if (!profile) {
+      return res.send('Profile Not Found')
     }
-  } catch (e) {
-    return res.status(500).send(e);
+    await profile.update({
+      name: name || profile.name,
+      email: email || profile.email,
+      introduction,
+      imageUrl
+    })
+    res.send(profile)
+  } catch (err) {
+    res.status(500).send(err)
   }
 };
 
@@ -88,12 +87,12 @@ exports.deleteUser = async (req, res) => {
       where: {
         id: req.user.id
       }
-    });
+    })
     if (!user) {
-      return res.send("Failed to delete");
+      return res.send('Failed to delete a user')
     }
-    res.send(user);
+    res.send(user)
   } catch (e) {
-    return res.status(500).send(e);
+    res.status(500).send(e)
   }
-};
+}
