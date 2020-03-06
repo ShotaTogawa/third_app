@@ -8,7 +8,7 @@ module.exports = (sequelize, DataTypes) => {
     },
     {}
   )
-  Follow.associate = function (models) {
+  Follow.associate = function(models) {
     // associations can be defined here
   }
   return Follow
