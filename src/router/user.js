@@ -1,18 +1,18 @@
-const express = require('express')
-const router = express.Router()
-const { authenticateToken } = require('../controllers/auth')
+const express = require("express");
+const router = express.Router();
+const { authenticateToken } = require("../controllers/auth");
 const {
   updateProfile,
-  getCurrentUser,
-  getUsers,
-  getSearchUsers,
+  currentUser,
+  users,
+  searchUsers,
   deleteUser
-} = require('../controllers/user')
+} = require("../controllers/user");
 
-router.get('/user', authenticateToken, getCurrentUser)
-router.get('/users', authenticateToken, getUsers)
-router.get('/users/search', authenticateToken, getSearchUsers)
+router.get('/user', authenticateToken, currentUser)
+router.get('/users', authenticateToken, users)
+router.get('/users/search', authenticateToken, searchUsers)
 router.patch('/user/edit', authenticateToken, updateProfile)
 router.delete('/user', authenticateToken, deleteUser)
 
-module.exports = router
+module.exports = router;
