@@ -3,23 +3,23 @@ module.exports = {
     browser: true,
     commonjs: true,
     es6: true,
-    "jest/globals": true
+    'jest/globals': true
   },
-  extends: ["standard", "plugin:prettier/recommended"],
+  extends: ['standard', 'plugin:prettier/recommended'],
   globals: {
-    Atomics: "readonly",
-    SharedArrayBuffer: "readonly"
+    Atomics: 'readonly',
+    SharedArrayBuffer: 'readonly'
   },
   parserOptions: {
     ecmaVersion: 2018
   },
-  plugins: ["jest", "prettier"],
+  plugins: ['jest', 'prettier'],
   rules: {
-    "prettier/prettier": [
-      "error",
+    'prettier/prettier': [
+      'error',
       {
         singleQuote: true,
-        semi: false
+        semi: true
       }
     ]
   }

@@ -1,4 +1,4 @@
-'use strict'
+'use strict';
 module.exports = (sequelize, DataTypes) => {
   const Photo = sequelize.define(
     'Photo',
@@ -18,25 +18,25 @@ module.exports = (sequelize, DataTypes) => {
       }
     },
     {}
-  )
+  );
   Photo.associate = function(models) {
     // associations can be defined here
     Photo.belongsTo(models.User, {
       foreignKey: 'user_id',
       onDelete: 'CASCADE'
-    })
+    });
 
     Photo.hasMany(models.Comment, {
       foreignKey: 'photo_id',
       as: 'comments'
-    })
+    });
 
     Photo.belongsToMany(models.User, {
       through: 'Likes',
       as: 'users',
       foreignKey: 'photo_id',
       timestamps: true
-    })
-  }
-  return Photo
-}
+    });
+  };
+  return Photo;
+};
