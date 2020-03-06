@@ -27,7 +27,7 @@ exports.myPhotos = async (req, res) => {
       limit: parseInt(req.query.limit),
       offset: parseInt(req.query.offset)
     });
-    if (!photos) {
+    if (photos.length === 0) {
       return res.send("This user does not have photos");
     }
     res.send(photos);
@@ -47,7 +47,7 @@ exports.searchMyPhotos = async (req, res) => {
         }
       }
     });
-    if (!photos) {
+    if (photos.length === 0) {
       return res.send("Not found");
     }
     res.send(photos);
@@ -62,7 +62,7 @@ exports.photos = async (req, res) => {
       limit: parseInt(req.query.limit),
       offset: parseInt(req.query.offset)
     });
-    if (!photos) {
+    if (photos.length === 0) {
       return res.send("This user does not have photos");
     }
     res.send(photos);
@@ -81,7 +81,7 @@ exports.searchPhotos = async (req, res) => {
         }
       }
     });
-    if (!photos) {
+    if (photos.length === 0) {
       return res.send("Not found");
     }
     res.send(photos);
