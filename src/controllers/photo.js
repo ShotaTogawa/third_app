@@ -28,7 +28,7 @@ exports.myPhotos = async (req, res) => {
       offset: parseInt(req.query.offset)
     })
     if (photos.length === 0) {
-      return res.send('This user does not have photos')
+      return res.send('You do not have photos')
     }
     res.send(photos)
   } catch (e) {
