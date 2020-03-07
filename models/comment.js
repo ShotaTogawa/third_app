@@ -1,4 +1,4 @@
-'use strict'
+'use strict';
 module.exports = (sequelize, DataTypes) => {
   const Comment = sequelize.define(
     'Comment',
@@ -13,13 +13,13 @@ module.exports = (sequelize, DataTypes) => {
       }
     },
     {}
-  )
+  );
   Comment.associate = function(models) {
     // associations can be defined here
     Comment.belongsTo(models.Photo, {
       foreignKey: 'photo_id',
       onDelete: 'CASCADE'
-    })
-  }
-  return Comment
-}
+    });
+  };
+  return Comment;
+};

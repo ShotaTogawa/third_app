@@ -1,4 +1,4 @@
-'use strict'
+'use strict';
 module.exports = (sequelize, DataTypes) => {
   const Like = sequelize.define(
     'Like',
@@ -7,9 +7,9 @@ module.exports = (sequelize, DataTypes) => {
       photo_id: DataTypes.INTEGER
     },
     {}
-  )
+  );
   Like.associate = function(models) {
     // associations can be defined here
-  }
-  return Like
-}
+  };
+  return Like;
+};
