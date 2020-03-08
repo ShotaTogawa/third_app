@@ -63,7 +63,6 @@ exports.searchUsers = async (req, res) => {
 
 exports.updateProfile = async (req, res) => {
   const { name, email, introduction, image } = req.body;
-  console.log('image url', image);
 
   try {
     const profile = await User.findByPk(req.user.id);
