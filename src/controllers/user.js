@@ -62,7 +62,7 @@ exports.searchUsers = async (req, res) => {
 };
 
 exports.updateProfile = async (req, res) => {
-  const { name, email, introduction, imageUrl } = req.body;
+  const { name, email, introduction, image } = req.body;
 
   try {
     const profile = await User.findByPk(req.user.id);
@@ -73,7 +73,7 @@ exports.updateProfile = async (req, res) => {
       name: name || profile.name,
       email: email || profile.email,
       introduction,
-      imageUrl
+      image
     });
     res.send(profile);
   } catch (err) {
