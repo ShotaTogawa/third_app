@@ -27,7 +27,7 @@ router.post(
   },
   createComment
 );
-router.put('/comment/:photoId', authenticateToken, updateComment);
-router.delete('/comment/:photoId', authenticateToken, deleteComment);
+router.put('/comment/:commentId', authenticateToken, updateComment);
+router.delete('/comment/:commentId', authenticateToken, deleteComment);
 
 module.exports = router;
