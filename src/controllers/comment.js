@@ -1,12 +1,20 @@
 const models = require('../../models');
 const Comment = models.Comment;
+const User = models.User;
 
 exports.comments = async (req, res) => {
   try {
     const comments = await Comment.findAll({
       where: {
         photo_id: req.params.photoId
-      }
+      },
+      include: [
+        {
+          model: User,
+          required: true,
+          attributes: ['name', 'image']
+        }
+      ]
     });
     if (comments.length === 0) {
       return res.send('No comments');
