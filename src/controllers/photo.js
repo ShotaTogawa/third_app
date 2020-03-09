@@ -12,7 +12,8 @@ exports.photo = async (req, res) => {
       include: [
         {
           model: User,
-          required: true
+          required: true,
+          attributes: ['name', 'image']
         }
       ]
     });
@@ -69,7 +70,8 @@ exports.photos = async (req, res) => {
       include: [
         {
           model: User,
-          required: true
+          required: true,
+          attributes: ['name', 'image']
         }
       ],
       limit: parseInt(req.query.limit),
@@ -96,7 +98,8 @@ exports.searchPhotos = async (req, res) => {
       include: [
         {
           model: User,
-          required: true
+          required: true,
+          attributes: ['name', 'image']
         }
       ]
     });
