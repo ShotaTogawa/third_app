@@ -1,5 +1,6 @@
 const models = require('../../models');
 const Photo = models.Photo;
+const User = models.User;
 const { Op } = require('sequelize');
 
 exports.photo = async (req, res) => {
@@ -7,7 +8,14 @@ exports.photo = async (req, res) => {
     const photo = await Photo.findOne({
       where: {
         id: parseInt(req.params.photoId)
-      }
+      },
+      include: [
+        {
+          model: User,
+          required: true,
+          attributes: ['name', 'image']
+        }
+      ]
     });
     if (!photo) {
       return res.send('the photo is not found');
@@ -22,7 +30,7 @@ exports.myPhotos = async (req, res) => {
   try {
     const photos = await Photo.findAll({
       where: {
-        user_id: req.user.id
+        user_id: parseInt(req.user.id)
       },
       limit: parseInt(req.query.limit),
       offset: parseInt(req.query.offset)
@@ -59,6 +67,13 @@ exports.searchMyPhotos = async (req, res) => {
 exports.photos = async (req, res) => {
   try {
     const photos = await Photo.findAll({
+      include: [
+        {
+          model: User,
+          required: true,
+          attributes: ['name', 'image']
+        }
+      ],
       limit: parseInt(req.query.limit),
       offset: parseInt(req.query.offset)
     });
@@ -79,7 +94,14 @@ exports.searchPhotos = async (req, res) => {
         description: {
           [Op.like]: `%${req.query.term}%`
         }
-      }
+      },
+      include: [
+        {
+          model: User,
+          required: true,
+          attributes: ['name', 'image']
+        }
+      ]
     });
     if (photos.length === 0) {
       return res.send('Not found');

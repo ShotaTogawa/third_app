@@ -53,7 +53,10 @@ module.exports = (sequelize, DataTypes) => {
     // associations can be defined here
     User.hasMany(models.Photo, {
       foreignKey: 'user_id'
-      // as: 'photos'
+    });
+
+    User.hasMany(models.Comment, {
+      foreignKey: 'user_id'
     });
 
     User.belongsToMany(models.Photo, {
