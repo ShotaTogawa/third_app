@@ -4,12 +4,14 @@ const { authenticateToken } = require('../controllers/auth');
 const {
   updateProfile,
   currentUser,
+  user,
   users,
   searchUsers,
   deleteUser
 } = require('../controllers/user');
 
 router.get('/user', authenticateToken, currentUser);
+router.get('/user/:id', authenticateToken, user);
 router.get('/users', authenticateToken, users);
 router.get('/users/search', authenticateToken, searchUsers);
 router.patch('/user/edit', authenticateToken, updateProfile);

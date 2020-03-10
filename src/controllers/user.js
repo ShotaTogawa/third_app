@@ -17,6 +17,20 @@ exports.currentUser = async (req, res) => {
   }
 };
 
+exports.user = async (req, res) => {
+  try {
+    const user = await User.findByPk(req.params.id, {
+      attributes: ['name', 'email', 'image', 'introduction', 'createdAt']
+    });
+    if (!user) {
+      return res.send('User not found');
+    }
+    return res.status(200).send(user);
+  } catch (e) {
+    res.status(500).send(e);
+  }
+};
+
 exports.users = async (req, res) => {
   try {
     const users = await User.findAll({
