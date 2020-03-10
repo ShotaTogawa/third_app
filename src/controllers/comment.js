@@ -31,7 +31,6 @@ exports.createComment = async (req, res) => {
     if (!comment) {
       return res.send('Comment is required');
     }
-    console.log(req.params);
     const newComment = await Comment.create({
       user_id: req.user.id,
       photo_id: req.params.photoId,
