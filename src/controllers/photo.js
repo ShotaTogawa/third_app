@@ -44,6 +44,24 @@ exports.myPhotos = async (req, res) => {
   }
 };
 
+exports.otherUserPhotos = async (req, res) => {
+  try {
+    const photos = await Photo.findAll({
+      where: {
+        user_id: parseInt(req.params.userId)
+      },
+      limit: parseInt(req.query.limit),
+      offset: parseInt(req.query.offset)
+    });
+    if (photos.length === 0) {
+      return res.send('No photos');
+    }
+    res.send(photos);
+  } catch (e) {
+    res.status(500).send(e);
+  }
+};
+
 exports.searchMyPhotos = async (req, res) => {
   try {
     const photos = await Photo.findAll({

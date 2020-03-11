@@ -4,6 +4,7 @@ const { authenticateToken } = require('../controllers/auth');
 const {
   photo,
   myPhotos,
+  otherUserPhotos,
   searchMyPhotos,
   photos,
   searchPhotos,
@@ -15,6 +16,7 @@ const { check, validationResult } = require('express-validator/check');
 
 router.get('/photo/:photoId', authenticateToken, photo);
 router.get('/my-photos', authenticateToken, myPhotos);
+router.get('/photos/:userId', authenticateToken, otherUserPhotos);
 router.get('/my-photos/search', authenticateToken, searchMyPhotos);
 router.get('/photos', authenticateToken, photos);
 router.get('/photos/search', authenticateToken, searchPhotos);
