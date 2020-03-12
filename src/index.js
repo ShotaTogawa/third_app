@@ -8,6 +8,7 @@ const uploadRouter = require('./router/upload');
 const userRouter = require('./router/user');
 const photoRouter = require('./router/photo');
 const commentRouter = require('./router/comment');
+const likeRouter = require('./router/like');
 require('dotenv').config({ path: 'variables.env' });
 
 db.authenticate()
@@ -22,6 +23,7 @@ app.use('/api', uploadRouter);
 app.use('/api', userRouter);
 app.use('/api', photoRouter);
 app.use('/api', commentRouter);
+app.use('/api', likeRouter);
 
 app.listen(process.env.PORT || 4000, err => {
   if (err) {
