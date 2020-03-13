@@ -5,3 +5,5 @@ const { follow, unfollow } = require('../controllers/follow');
 
 router.post('/follow/:userId', authenticateToken, follow);
 router.delete('/unfollow/:userId', authenticateToken, unfollow);
+
+module.exports = router;
