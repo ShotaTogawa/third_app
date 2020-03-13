@@ -1,13 +1,27 @@
 const models = require('../../models');
 const User = models.User;
+const Photo = models.Photo;
 const { Op } = require('sequelize');
+const sequelize = require('../../db/database');
 
 exports.currentUser = async (req, res) => {
   try {
     const currentUser = await User.findOne({
       attributes: ['name', 'email', 'image', 'introduction', 'createdAt'],
-      where: { id: req.user.id }
+      where: { id: req.user.id },
+      // TODO add follower/follow nums
+      include: [
+        {
+          model: Photo,
+          required: true,
+          attributes: [
+            [sequelize.fn('COUNT', sequelize.col('user_id')), 'posts']
+          ],
+          group: 'id'
+        }
+      ]
     });
+
     if (!currentUser) {
       return res.send('User not found');
     }
@@ -20,7 +34,18 @@ exports.currentUser = async (req, res) => {
 exports.user = async (req, res) => {
   try {
     const user = await User.findByPk(req.params.id, {
-      attributes: ['name', 'email', 'image', 'introduction', 'createdAt']
+      attributes: ['name', 'email', 'image', 'introduction', 'createdAt'],
+      // TODO add follower/follow nums
+      include: [
+        {
+          model: Photo,
+          required: true,
+          attributes: [
+            [sequelize.fn('COUNT', sequelize.col('user_id')), 'posts']
+          ],
+          group: 'id'
+        }
+      ]
     });
     if (!user) {
       return res.send('User not found');
