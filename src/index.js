@@ -9,6 +9,7 @@ const userRouter = require('./router/user');
 const photoRouter = require('./router/photo');
 const commentRouter = require('./router/comment');
 const likeRouter = require('./router/like');
+const followRouter = require('./router/follow');
 require('dotenv').config({ path: 'variables.env' });
 
 db.authenticate()
@@ -24,6 +25,7 @@ app.use('/api', userRouter);
 app.use('/api', photoRouter);
 app.use('/api', commentRouter);
 app.use('/api', likeRouter);
+app.use('/api', followRouter);
 
 app.listen(process.env.PORT || 4000, err => {
   if (err) {
