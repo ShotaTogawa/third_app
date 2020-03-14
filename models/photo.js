@@ -1,5 +1,5 @@
 'use strict';
-const { myPhotosQuery } = require('../src/sql/myphotos');
+const { myPhotosQuery } = require('../src/sql/photos');
 const { QueryTypes } = require('sequelize');
 
 module.exports = (sequelize, DataTypes) => {
@@ -42,9 +42,9 @@ module.exports = (sequelize, DataTypes) => {
     });
   };
 
-  Photo.prototype.buildMyPhotosQuery = async (user_id, limit, offset) => {
+  Photo.prototype.buildMyPhotosQuery = async (userId, limit, offset) => {
     const photos = await sequelize.query(myPhotosQuery, {
-      replacements: { user_id: user_id, limit, offset },
+      replacements: { user_id: userId, limit, offset },
       type: QueryTypes.SELECT
     });
     return photos;
