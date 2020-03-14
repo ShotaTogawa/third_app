@@ -2,6 +2,9 @@ const models = require('../../models');
 const Photo = models.Photo;
 const User = models.User;
 const { Op } = require('sequelize');
+const { myPhotosQuery } = require('../sql/myphotos');
+const sequelize = require('../../db/database');
+const { QueryTypes } = require('sequelize');
 
 exports.photo = async (req, res) => {
   try {
@@ -28,12 +31,16 @@ exports.photo = async (req, res) => {
 
 exports.myPhotos = async (req, res) => {
   try {
-    const photos = await Photo.findAll({
-      where: {
-        user_id: parseInt(req.user.id)
-      },
-      limit: parseInt(req.query.limit),
-      offset: parseInt(req.query.offset)
+    // const photos = await Photo.findAll({
+    //   where: {
+    //     user_id: parseInt(req.user.id)
+    //   },
+    //   limit: parseInt(req.query.limit),
+    //   offset: parseInt(req.query.offset)
+    // });
+    const photos = await sequelize.query(myPhotosQuery, {
+      replacements: { user_id: req.user.id },
+      type: QueryTypes.SELECT
     });
     if (photos.length === 0) {
       return res.send('You do not have photos');
