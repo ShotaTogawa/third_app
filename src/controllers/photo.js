@@ -2,9 +2,6 @@ const models = require('../../models');
 const Photo = models.Photo;
 const User = models.User;
 const { Op } = require('sequelize');
-const { userphotosQuery, publicPhotos } = require('../sql/photos');
-const sequelize = require('../../db/database');
-const { QueryTypes } = require('sequelize');
 
 exports.photo = async (req, res) => {
   try {
@@ -31,20 +28,11 @@ exports.photo = async (req, res) => {
 
 exports.myPhotos = async (req, res) => {
   try {
-    const photos = await sequelize.query(userphotosQuery, {
-      replacements: {
-        user_id: parseInt(req.user.id),
-        limit: parseInt(req.query.limit),
-        offset: parseInt(req.query.offset)
-      },
-      type: QueryTypes.SELECT
-    });
-
-    // const photos = await Photo.buildMyPhotoQuery(
-    //   parseInt(req.user.id),
-    //   parseInt(req.query.limit),
-    //   parseInt(req.query.offset)
-    // );
+    const photos = await Photo.buildMyPhotosQuery(
+      parseInt(req.user.id),
+      parseInt(req.query.limit),
+      parseInt(req.query.offset)
+    );
     if (photos.length === 0) {
       return res.send('You do not have photos');
     }
@@ -56,22 +44,11 @@ exports.myPhotos = async (req, res) => {
 
 exports.otherUserPhotos = async (req, res) => {
   try {
-    // const photos = await Photo.findAll({
-    //   where: {
-    //     user_id: parseInt(req.params.userId)
-    //   },
-    //   limit: parseInt(req.query.limit),
-    //   offset: parseInt(req.query.offset)
-    // });
-
-    const photos = await sequelize.query(userphotosQuery, {
-      replacements: {
-        user_id: parseInt(req.params.userId),
-        limit: parseInt(req.query.limit),
-        offset: parseInt(req.query.offset)
-      },
-      type: QueryTypes.SELECT
-    });
+    const photos = await Photo.buildMyPhotosQuery(
+      parseInt(req.params.userId),
+      parseInt(req.query.limit),
+      parseInt(req.query.offset)
+    );
 
     if (photos.length === 0) {
       return res.send('No photos');
@@ -104,26 +81,11 @@ exports.searchMyPhotos = async (req, res) => {
 
 exports.photos = async (req, res) => {
   try {
-    // const photos = await Photo.findAll({
-    //   include: [
-    //     {
-    //       model: User,
-    //       required: true,
-    //       attributes: ['name', 'image']
-    //     }
-    //   ],
-    //   limit: parseInt(req.query.limit),
-    //   offset: parseInt(req.query.offset)
-    // });
-
-    const photos = await sequelize.query(publicPhotos, {
-      replacements: {
-        user_id: parseInt(req.user.id),
-        limit: parseInt(req.query.limit),
-        offset: parseInt(req.query.offset)
-      },
-      type: QueryTypes.SELECT
-    });
+    const photos = await Photo.buildPublicPhotosQuery(
+      parseInt(req.user.id),
+      parseInt(req.query.limit),
+      parseInt(req.query.offset)
+    );
 
     if (photos.length === 0) {
       return res.send('This user does not have photos');
