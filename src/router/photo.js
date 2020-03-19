@@ -19,7 +19,7 @@ router.get('/my-photos', authenticateToken, myPhotos);
 router.get('/photos/:userId', authenticateToken, otherUserPhotos);
 router.get('/my-photos/search', authenticateToken, searchMyPhotos);
 router.get('/photos', authenticateToken, photos);
-router.get('/photos/search', authenticateToken, searchPhotos);
+router.get('/photo-search', authenticateToken, searchPhotos);
 router.post(
   '/photo',
   authenticateToken,
