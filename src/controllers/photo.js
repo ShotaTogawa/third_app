@@ -28,7 +28,7 @@ exports.photo = async (req, res) => {
 
 exports.myPhotos = async (req, res) => {
   try {
-    const photos = await Photo.buildMyPhotosQuery(
+    const photos = await Photo.findUserPhotos(
       parseInt(req.user.id),
       parseInt(req.query.limit),
       parseInt(req.query.offset)
@@ -44,7 +44,7 @@ exports.myPhotos = async (req, res) => {
 
 exports.otherUserPhotos = async (req, res) => {
   try {
-    const photos = await Photo.buildMyPhotosQuery(
+    const photos = await Photo.findUserPhotos(
       parseInt(req.params.userId),
       parseInt(req.query.limit),
       parseInt(req.query.offset)
@@ -81,7 +81,7 @@ exports.searchMyPhotos = async (req, res) => {
 
 exports.photos = async (req, res) => {
   try {
-    const photos = await Photo.buildPublicPhotosQuery(
+    const photos = await Photo.findPublicPhotos(
       parseInt(req.user.id),
       parseInt(req.query.limit),
       parseInt(req.query.offset)

@@ -41,7 +41,7 @@ module.exports = (sequelize, DataTypes) => {
     });
   };
 
-  Photo.buildMyPhotosQuery = async (userId, limit, offset) => {
+  Photo.findUserPhotos = async (userId, limit, offset) => {
     const photos = await sequelize.query(
       `select
             photo.id,
@@ -82,7 +82,7 @@ module.exports = (sequelize, DataTypes) => {
     return photos;
   };
 
-  Photo.buildPublicPhotosQuery = async (userId, limit, offset) => {
+  Photo.findPublicPhotos = async (userId, limit, offset) => {
     const photos = await sequelize.query(
       `select
             user.name,
