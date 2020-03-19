@@ -87,10 +87,12 @@ exports.photos = async (req, res) => {
       parseInt(req.query.offset)
     );
 
+    const countPhotos = await Photo.findAll();
+
     if (photos.length === 0) {
       return res.send('This user does not have photos');
     }
-    res.send(photos);
+    res.send([photos, { count: countPhotos.length }]);
   } catch (e) {
     res.status(500).send(e);
   }
