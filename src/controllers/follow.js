@@ -29,7 +29,7 @@ exports.unfollow = async (req, res) => {
   }
 };
 
-exports.follower = async (req, res) => {
+exports.followers = async (req, res) => {
   try {
     const followers = await Follow.findAll({
       where: {
@@ -47,7 +47,7 @@ exports.follower = async (req, res) => {
       }
     });
 
-    if (!users) {
+    if (users.length === 0) {
       res.send('No followers');
     }
 
@@ -57,7 +57,7 @@ exports.follower = async (req, res) => {
   }
 };
 
-exports.followee = async (req, res) => {
+exports.followees = async (req, res) => {
   try {
     const followees = await Follow.findAll({
       where: {
@@ -74,7 +74,7 @@ exports.followee = async (req, res) => {
         id: followeeIds
       }
     });
-    if (!users) {
+    if (users.length === 0) {
       res.send("Haven't followed anyone yet");
     }
 
