@@ -78,10 +78,16 @@ exports.favorites = async (req, res) => {
       parseInt(req.query.limit),
       parseInt(req.query.offset)
     );
+
+    const countPhotos = await Like.findAll({
+      where: {
+        user_id: req.user.id
+      }
+    });
     if (photos.length === 0) {
       return res.send('You do not have favorite photos');
     }
-    res.send(photos);
+    res.send([photos, { count: countPhotos.length }]);
   } catch (e) {
     res.status(500).send(e);
   }
