@@ -158,7 +158,6 @@ module.exports = (sequelize, DataTypes) => {
               photo_id
           ) counter
       on photo.id = counter.photo_id
-      where photo.user_id = :user_id
       having isLiked = 1
       limit :offset, :limit`,
       {
