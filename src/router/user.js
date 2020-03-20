@@ -13,7 +13,7 @@ const {
 router.get('/user', authenticateToken, currentUser);
 router.get('/user/:id', authenticateToken, user);
 router.get('/users', authenticateToken, users);
-router.get('/users/search', authenticateToken, searchUsers);
+router.get('/user-search', authenticateToken, searchUsers);
 router.patch('/user/edit', authenticateToken, updateProfile);
 router.delete('/user', authenticateToken, deleteUser);
 

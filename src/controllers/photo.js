@@ -28,13 +28,11 @@ exports.photo = async (req, res) => {
 
 exports.myPhotos = async (req, res) => {
   try {
-    const photos = await Photo.findAll({
-      where: {
-        user_id: parseInt(req.user.id)
-      },
-      limit: parseInt(req.query.limit),
-      offset: parseInt(req.query.offset)
-    });
+    const photos = await Photo.findUserPhotos(
+      parseInt(req.user.id),
+      parseInt(req.query.limit),
+      parseInt(req.query.offset)
+    );
     if (photos.length === 0) {
       return res.send('You do not have photos');
     }
@@ -46,13 +44,12 @@ exports.myPhotos = async (req, res) => {
 
 exports.otherUserPhotos = async (req, res) => {
   try {
-    const photos = await Photo.findAll({
-      where: {
-        user_id: parseInt(req.params.userId)
-      },
-      limit: parseInt(req.query.limit),
-      offset: parseInt(req.query.offset)
-    });
+    const photos = await Photo.findUserPhotos(
+      parseInt(req.params.userId),
+      parseInt(req.query.limit),
+      parseInt(req.query.offset)
+    );
+
     if (photos.length === 0) {
       return res.send('No photos');
     }
@@ -84,21 +81,18 @@ exports.searchMyPhotos = async (req, res) => {
 
 exports.photos = async (req, res) => {
   try {
-    const photos = await Photo.findAll({
-      include: [
-        {
-          model: User,
-          required: true,
-          attributes: ['name', 'image']
-        }
-      ],
-      limit: parseInt(req.query.limit),
-      offset: parseInt(req.query.offset)
-    });
+    const photos = await Photo.findPublicPhotos(
+      parseInt(req.user.id),
+      parseInt(req.query.limit),
+      parseInt(req.query.offset)
+    );
+
+    const countPhotos = await Photo.findAll();
+
     if (photos.length === 0) {
       return res.send('This user does not have photos');
     }
-    res.send(photos);
+    res.send([photos, { count: countPhotos.length }]);
   } catch (e) {
     res.status(500).send(e);
   }
