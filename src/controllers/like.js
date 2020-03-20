@@ -73,26 +73,15 @@ exports.unlike = async (req, res) => {
 
 exports.favorites = async (req, res) => {
   try {
-    const favorites = await Like.findAll({
-      where: {
-        user_id: req.user.id
-      }
-    });
-
-    const photoIds = await favorites.map(favorite => {
-      return favorite.dataValues.photo_id;
-    });
-
-    const favoritePhotos = await Photo.findAll({
-      where: {
-        id: photoIds
-      }
-    });
-
-    if (!favoritePhotos) {
-      res.send("Haven't have favorite photos");
+    const photos = await Photo.findFavoritePhotos(
+      parseInt(req.user.id),
+      parseInt(req.query.limit),
+      parseInt(req.query.offset)
+    );
+    if (photos.length === 0) {
+      return res.send('You do not have favorite photos');
     }
-    res.send(favoritePhotos);
+    res.send(photos);
   } catch (e) {
     res.status(500).send(e);
   }
