@@ -85,7 +85,7 @@ exports.favorites = async (req, res) => {
       }
     });
     if (photos.length === 0) {
-      return res.send('You do not have favorite photos');
+      return res.send(['You do not have favorite photos', 0]);
     }
     res.send([photos, { count: countPhotos }]);
   } catch (e) {
