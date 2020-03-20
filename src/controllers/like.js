@@ -1,5 +1,6 @@
 const models = require('../../models');
 const Like = models.Like;
+const Photo = models.Photo;
 const sequelize = require('../../db/database');
 
 exports.like = async (req, res) => {
@@ -65,6 +66,33 @@ exports.unlike = async (req, res) => {
       group: 'photo_id'
     });
     res.status(200).send(likes);
+  } catch (e) {
+    res.status(500).send(e);
+  }
+};
+
+exports.favorites = async (req, res) => {
+  try {
+    const favorites = await Like.findAll({
+      where: {
+        user_id: req.user.id
+      }
+    });
+
+    const photoIds = await favorites.map(favorite => {
+      return favorite.dataValues.photo_id;
+    });
+
+    const favoritePhotos = await Photo.findAll({
+      where: {
+        id: photoIds
+      }
+    });
+
+    if (!favoritePhotos) {
+      res.send("Haven't have favorite photos");
+    }
+    res.send(favoritePhotos);
   } catch (e) {
     res.status(500).send(e);
   }
