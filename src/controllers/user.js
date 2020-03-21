@@ -29,7 +29,7 @@ exports.currentUser = async (req, res) => {
       attributes: ['follower_id']
     });
 
-    const followerIds = await followers.map(follower => {
+    const followIds = await followers.map(follower => {
       return follower.dataValues.follower_id;
     });
 
@@ -39,7 +39,7 @@ exports.currentUser = async (req, res) => {
       },
       attributes: ['followee_id']
     });
-    const followIds = await follows.map(follow => {
+    const followerIds = await follows.map(follow => {
       return follow.dataValues.followee_id;
     });
 
@@ -57,7 +57,7 @@ exports.currentUser = async (req, res) => {
 exports.user = async (req, res) => {
   try {
     const user = await User.findByPk(req.params.id, {
-      attributes: ['name', 'email', 'image', 'introduction', 'createdAt'],
+      attributes: ['id', 'name', 'email', 'image', 'introduction', 'createdAt'],
       include: [
         {
           model: Photo,
@@ -104,7 +104,7 @@ exports.user = async (req, res) => {
 exports.users = async (req, res) => {
   try {
     const users = await User.findAll({
-      attributes: ['name', 'image', 'introduction', 'createdAt'],
+      attributes: ['id', 'name', 'image', 'introduction', 'createdAt'],
       limit: parseInt(req.query.limit),
       offset: parseInt(req.query.offset)
     });
