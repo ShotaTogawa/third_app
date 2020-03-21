@@ -1,5 +1,6 @@
 const models = require('../../models');
 const Like = models.Like;
+const Photo = models.Photo;
 const sequelize = require('../../db/database');
 
 exports.like = async (req, res) => {
@@ -65,6 +66,28 @@ exports.unlike = async (req, res) => {
       group: 'photo_id'
     });
     res.status(200).send(likes);
+  } catch (e) {
+    res.status(500).send(e);
+  }
+};
+
+exports.favorites = async (req, res) => {
+  try {
+    const photos = await Photo.findFavoritePhotos(
+      parseInt(req.user.id),
+      parseInt(req.query.limit),
+      parseInt(req.query.offset)
+    );
+
+    const countPhotos = await Like.count({
+      where: {
+        user_id: req.user.id
+      }
+    });
+    if (photos.length === 0) {
+      return res.send(['You do not have favorite photos', 0]);
+    }
+    res.send([photos, { count: countPhotos }]);
   } catch (e) {
     res.status(500).send(e);
   }
