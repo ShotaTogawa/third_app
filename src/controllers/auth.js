@@ -15,7 +15,7 @@ exports.signup = async (req, res) => {
     });
 
     if (isExistUser) {
-      return res.status(500).send('This email has already been taken');
+      return res.send('This email has already been taken');
     }
 
     const user = await User.create({
@@ -24,7 +24,7 @@ exports.signup = async (req, res) => {
       password: bcrypt.hashSync(password, 10)
     });
 
-    const token = jwt.sign({ _id: user.id }, process.env.JWT_TOKEN, {
+    const token = jwt.sign({ id: user.id }, process.env.JWT_TOKEN, {
       expiresIn: '1h'
     });
 
