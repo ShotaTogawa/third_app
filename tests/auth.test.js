@@ -3,12 +3,13 @@ const app = require('../src');
 const faker = require('faker');
 const models = require('../models');
 const User = models.User;
+const bcrypt = require('bcryptjs');
 const { setupDatabase, userOne } = require('./fixtures/db');
 
 beforeEach(setupDatabase);
 
 describe('signup test', () => {
-  it('should not sign up when a input is empty', async () => {
+  it('should not sign up when an email is empty', async () => {
     await request(app)
       .post('/api/signup')
       .send({
@@ -43,17 +44,13 @@ describe('signup test', () => {
       })
       .expect(201);
     expect(response.body.accessToken).not.toBeNull();
-    expect(response.body.userId).toEqual(2);
+    expect(response.body.userId).toEqual(4);
 
-    const user = await User.findOne({
-      where: {
-        email
-      }
-    });
+    const user = await User.findByPk(response.body.userId);
 
     expect(name).toBe(user.name);
     expect(email).toBe(user.email);
-    expect(password).not.toBe(user.password);
+    expect(bcrypt.hashSync(password, 10)).not.toBe(user.password);
   });
 });
 
@@ -92,14 +89,10 @@ describe('signin test', () => {
     expect(response.body.accessToken).not.toBeNull();
     expect(response.body.userId).toBe(userOne.id);
 
-    const user = await User.findOne({
-      where: {
-        email
-      }
-    });
+    const user = await User.findByPk(response.body.userId);
 
     expect(user.name).toBe(name);
     expect(user.email).toBe(email);
-    expect(user.password).not.toBe(password);
+    expect(bcrypt.hashSync(password, 10)).not.toBe(user.password);
   });
 });
