@@ -24,6 +24,10 @@ exports.signup = async (req, res) => {
       password: bcrypt.hashSync(password, 10)
     });
 
+    if (!user) {
+      return res.send('Failed to sign up');
+    }
+
     const token = jwt.sign({ id: user.id }, process.env.JWT_TOKEN, {
       expiresIn: '1h'
     });
@@ -51,7 +55,7 @@ exports.signin = async (req, res) => {
       user.password
     );
     if (!isValidPasswords) {
-      return res.status(401).send('Invalid Password!');
+      return res.send('Invalid Password');
     }
 
     const token = await jwt.sign({ id: user.id }, process.env.JWT_TOKEN, {
