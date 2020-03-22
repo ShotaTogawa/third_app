@@ -81,7 +81,7 @@ describe('signin test', () => {
   });
 
   it('should be able to login', async () => {
-    const { email, password } = userOne;
+    const { name, email, password } = userOne;
     const response = await request(app)
       .post('/api/signin')
       .send({
@@ -91,5 +91,15 @@ describe('signin test', () => {
 
     expect(response.body.accessToken).not.toBeNull();
     expect(response.body.userId).toBe(userOne.id);
+
+    const user = await User.findOne({
+      where: {
+        email
+      }
+    });
+
+    expect(user.name).toBe(name);
+    expect(user.email).toBe(email);
+    expect(user.password).not.toBe(password);
   });
 });
