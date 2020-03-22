@@ -43,7 +43,7 @@ exports.signin = async (req, res) => {
     });
 
     if (!user) {
-      return res.status(404).send('User Not Found.');
+      return res.send('User Not Found.');
     }
 
     const isValidPasswords = await bcrypt.compareSync(
