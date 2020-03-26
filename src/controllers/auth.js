@@ -7,17 +7,35 @@ const bcrypt = require('bcryptjs');
 exports.signup = async (req, res) => {
   const { name, email, password } = req.body;
 
-  const user = await User.create({
-    name,
-    email,
-    password: bcrypt.hashSync(password, 10)
-  });
+  try {
+    const isExistUser = await User.findOne({
+      where: {
+        email
+      }
+    });
 
-  const token = jwt.sign({ _id: user.id }, process.env.JWT_TOKEN, {
-    expiresIn: '1h'
-  });
+    if (isExistUser) {
+      return res.send('This email has already been taken');
+    }
 
-  res.status(201).send({ userId: user.id, accessToken: token });
+    const user = await User.create({
+      name,
+      email,
+      password: bcrypt.hashSync(password, 10)
+    });
+
+    if (!user) {
+      return res.send('Failed to sign up');
+    }
+
+    const token = jwt.sign({ id: user.id }, process.env.JWT_TOKEN, {
+      expiresIn: '1h'
+    });
+
+    res.status(201).send({ userId: user.id, accessToken: token });
+  } catch (e) {
+    res.status(500).send(e);
+  }
 };
 
 exports.signin = async (req, res) => {
@@ -29,7 +47,7 @@ exports.signin = async (req, res) => {
     });
 
     if (!user) {
-      return res.status(404).send('User Not Found.');
+      return res.send('User Not Found.');
     }
 
     const isValidPasswords = await bcrypt.compareSync(
@@ -37,7 +55,7 @@ exports.signin = async (req, res) => {
       user.password
     );
     if (!isValidPasswords) {
-      return res.status(401).send('Invalid Password!');
+      return res.send('Invalid Password');
     }
 
     const token = await jwt.sign({ id: user.id }, process.env.JWT_TOKEN, {

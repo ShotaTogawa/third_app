@@ -33,3 +33,5 @@ app.listen(process.env.PORT || 4000, err => {
   }
   console.log(`listening port ${process.env.PORT || 4000}`);
 });
+
+module.exports = app;
