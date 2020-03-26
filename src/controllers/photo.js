@@ -92,7 +92,7 @@ exports.photos = async (req, res) => {
     if (photos.length === 0) {
       return res.send('This user does not have photos');
     }
-    res.send([photos, { count: countPhotos.length }]);
+    res.send([photos, { count: countPhotos }]);
   } catch (e) {
     res.status(500).send(e);
   }
