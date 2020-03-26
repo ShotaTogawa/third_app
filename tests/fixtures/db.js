@@ -44,6 +44,22 @@ const photoTwo = {
   photo_url: 'photo_url_1'
 };
 
+const photoThree = {
+  id: 3,
+  user_id: userOne.id,
+  description:
+    'There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form,',
+  photo_url: 'photo_url_1'
+};
+
+const photoFour = {
+  id: 4,
+  user_id: userTwo.id,
+  description:
+    'There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form,',
+  photo_url: 'photo_url_1'
+};
+
 const commentOne = {
   id: 1,
   user_id: userOne.id,
@@ -113,6 +129,8 @@ const setupDatabase = async () => {
 
   await Photo.create(photoOne);
   await Photo.create(photoTwo);
+  await Photo.create(photoThree);
+  await Photo.create(photoFour);
   await Comment.create(commentOne);
   await Comment.create(commentTwo);
   await Like.create(likeOne);
@@ -124,5 +142,8 @@ const setupDatabase = async () => {
 
 module.exports = {
   setupDatabase,
-  userOne
+  userOne,
+  userTwo,
+  userThree,
+  photoOne
 };
