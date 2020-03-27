@@ -145,5 +145,6 @@ module.exports = {
   userOne,
   userTwo,
   userThree,
-  photoOne
+  photoOne,
+  commentOne
 };
