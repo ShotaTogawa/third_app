@@ -7,7 +7,7 @@ const TestUtils = require('./fixtures/testUtils.js');
 
 beforeEach(setupDatabase);
 
-describe('like controller tests', () => {
+describe('follow controller tests', () => {
   it('should get followers', async () => {
     const auth = await TestUtils.login(userOne.email, userOne.password);
     const response = await request(app)
