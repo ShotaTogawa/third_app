@@ -23,7 +23,6 @@ describe('like controller tests', () => {
       .set('Authorization', `Bearer ${auth.accessToken}`)
       .expect(200);
 
-    console.log(response.body);
     expect(response.body[0]).not.toBeNull();
     expect(response.body[1][0].likes).toEqual(3);
   });
