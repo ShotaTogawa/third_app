@@ -48,7 +48,7 @@ exports.followers = async (req, res) => {
     });
 
     if (users.length === 0) {
-      res.send('No followers');
+      return res.send('No followers');
     }
 
     res.send(users);
@@ -75,7 +75,7 @@ exports.followees = async (req, res) => {
       }
     });
     if (users.length === 0) {
-      res.send("Haven't followed anyone yet");
+      return res.send("Haven't followed anyone yet");
     }
 
     res.send(users);

@@ -25,7 +25,16 @@ const userThree = {
   id: 3,
   name: faker.name.firstName(),
   email: faker.internet.email(),
-  password: faker.internet.password()
+  password: faker.internet.password(),
+  introduction: 'Hello world'
+};
+
+const userFour = {
+  id: 4,
+  name: faker.name.firstName(),
+  email: faker.internet.email(),
+  password: faker.internet.password(),
+  introduction: 'Hello Sir'
 };
 
 const photoOne = {
@@ -39,6 +48,22 @@ const photoOne = {
 const photoTwo = {
   id: 2,
   user_id: userOne.id,
+  description:
+    'There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form,',
+  photo_url: 'photo_url_1'
+};
+
+const photoThree = {
+  id: 3,
+  user_id: userOne.id,
+  description:
+    'There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form,',
+  photo_url: 'photo_url_1'
+};
+
+const photoFour = {
+  id: 4,
+  user_id: userTwo.id,
   description:
     'There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form,',
   photo_url: 'photo_url_1'
@@ -60,14 +85,26 @@ const commentTwo = {
 
 const likeOne = {
   id: 1,
-  user_id: userTwo.id,
+  user_id: userOne.id,
   photo_id: photoOne.id
 };
 
 const likeTwo = {
   id: 2,
+  user_id: userTwo.id,
+  photo_id: photoOne.id
+};
+
+const likeThree = {
+  id: 3,
   user_id: userThree.id,
   photo_id: photoOne.id
+};
+
+const likeFour = {
+  id: 4,
+  user_id: userOne.id,
+  photo_id: photoTwo.id
 };
 
 const followOne = {
@@ -108,15 +145,26 @@ const setupDatabase = async () => {
   await User.create({
     name: userThree.name,
     email: userThree.email,
-    password: bcrypt.hashSync(userThree.password, 10)
+    password: bcrypt.hashSync(userThree.password, 10),
+    introduction: userThree.introduction
   });
 
+  await User.create({
+    name: userFour.name,
+    email: userFour.email,
+    password: bcrypt.hashSync(userFour.password, 10),
+    introduction: userFour.introduction
+  });
   await Photo.create(photoOne);
   await Photo.create(photoTwo);
+  await Photo.create(photoThree);
+  await Photo.create(photoFour);
   await Comment.create(commentOne);
   await Comment.create(commentTwo);
   await Like.create(likeOne);
   await Like.create(likeTwo);
+  await Like.create(likeThree);
+  await Like.create(likeFour);
   await Follow.create(followOne);
   await Follow.create(followTwo);
   await Follow.create(followThree);
@@ -124,5 +172,11 @@ const setupDatabase = async () => {
 
 module.exports = {
   setupDatabase,
-  userOne
+  userOne,
+  userTwo,
+  userThree,
+  userFour,
+  photoOne,
+  photoTwo,
+  commentOne
 };

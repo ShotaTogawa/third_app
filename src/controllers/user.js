@@ -70,6 +70,10 @@ exports.user = async (req, res) => {
       ]
     });
 
+    if (!user.dataValues.id) {
+      return res.send('User not found');
+    }
+
     const followers = await Follow.findAll({
       where: {
         followee_id: req.params.id
@@ -90,9 +94,7 @@ exports.user = async (req, res) => {
     const followIds = await follows.map(follow => {
       return follow.dataValues.followee_id;
     });
-    if (!user) {
-      return res.send('User not found');
-    }
+
     return res
       .status(200)
       .send([user, { followee: followIds }, { follower: followerIds }]);
@@ -105,6 +107,9 @@ exports.users = async (req, res) => {
   try {
     const users = await User.findAll({
       attributes: ['id', 'name', 'image', 'introduction', 'createdAt'],
+      where: {
+        id: { [Op.notIn]: [req.user.id] }
+      },
       limit: parseInt(req.query.limit),
       offset: parseInt(req.query.offset)
     });
@@ -151,7 +156,7 @@ exports.updateProfile = async (req, res) => {
   try {
     const profile = await User.findByPk(req.user.id);
     if (!profile) {
-      return res.send('Profile Not Found');
+      return res.send('User Not Found');
     }
     await profile.update({
       name: name || profile.name,
@@ -175,7 +180,7 @@ exports.deleteUser = async (req, res) => {
     if (!user) {
       return res.send('Failed to delete a user');
     }
-    res.send(user);
+    res.status(200).send();
   } catch (e) {
     res.status(500).send(e);
   }
