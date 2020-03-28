@@ -25,14 +25,16 @@ const userThree = {
   id: 3,
   name: faker.name.firstName(),
   email: faker.internet.email(),
-  password: faker.internet.password()
+  password: faker.internet.password(),
+  introduction: 'Hello world'
 };
 
 const userFour = {
   id: 4,
   name: faker.name.firstName(),
   email: faker.internet.email(),
-  password: faker.internet.password()
+  password: faker.internet.password(),
+  introduction: 'Hello Sir'
 };
 
 const photoOne = {
@@ -143,13 +145,15 @@ const setupDatabase = async () => {
   await User.create({
     name: userThree.name,
     email: userThree.email,
-    password: bcrypt.hashSync(userThree.password, 10)
+    password: bcrypt.hashSync(userThree.password, 10),
+    introduction: userThree.introduction
   });
 
   await User.create({
     name: userFour.name,
     email: userFour.email,
-    password: bcrypt.hashSync(userFour.password, 10)
+    password: bcrypt.hashSync(userFour.password, 10),
+    introduction: userFour.introduction
   });
   await Photo.create(photoOne);
   await Photo.create(photoTwo);
