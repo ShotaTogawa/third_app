@@ -1,7 +1,6 @@
 const request = require('supertest');
 const app = require('../src');
 const models = require('../models');
-// const User = models.User;
 const Photo = models.Photo;
 const { setupDatabase, userOne, photoOne } = require('./fixtures/db');
 const TestUtils = require('./fixtures/testUtils.js');
