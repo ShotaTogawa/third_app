@@ -5,6 +5,10 @@ const sequelize = require('../../db/database');
 
 exports.like = async (req, res) => {
   try {
+    const photo = await Photo.findByPk(req.params.photoId);
+    if (!photo) {
+      return res.send('Not found the photo');
+    }
     const like = await Like.findOne({
       where: { user_id: req.user.id, photo_id: req.params.photoId }
     });
@@ -27,6 +31,10 @@ exports.like = async (req, res) => {
 };
 exports.createLike = async (req, res) => {
   try {
+    const photo = await Photo.findByPk(req.params.photoId);
+    if (!photo) {
+      return res.send('Not found the photo');
+    }
     const like = await Like.create({
       user_id: req.user.id,
       photo_id: req.params.photoId
@@ -51,6 +59,10 @@ exports.createLike = async (req, res) => {
 };
 exports.unlike = async (req, res) => {
   try {
+    const photo = await Photo.findByPk(req.params.photoId);
+    if (!photo) {
+      return res.send('Not found the photo');
+    }
     const like = await Like.destroy({
       where: { user_id: req.user.id, photo_id: req.params.photoId }
     });
