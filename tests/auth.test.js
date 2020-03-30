@@ -44,7 +44,7 @@ describe('signup test', () => {
       })
       .expect(201);
     expect(response.body.accessToken).not.toBeNull();
-    expect(response.body.userId).toEqual(4);
+    expect(response.body.userId).toEqual(5);
 
     const user = await User.findByPk(response.body.userId);
 
